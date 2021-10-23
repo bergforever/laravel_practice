@@ -106,7 +106,7 @@ Route::get('utility_modal', function () {
     return view('utility_modal');
 });
 Route::get('utility_modal', [\App\Http\Controllers\ItemController::class, 'index']);
-Route::post('store', [\App\Http\Controllers\ItemController::class, 'store']);
+Route::post('store_new_item', [\App\Http\Controllers\ItemController::class, 'store']);
 Route::get('delete_item/{id}',[\App\Http\Controllers\ItemController::class,'destroy'])->name('delete_item');
 Route::get('edit_item/{id}',[\App\Http\Controllers\ItemController::class,'edit'])->name('edit_item');
 Route::post('update_item',[\App\Http\Controllers\ItemController::class,'update'])->name('update_item');

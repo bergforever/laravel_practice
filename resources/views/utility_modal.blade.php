@@ -52,7 +52,7 @@
             </div>
             <div class="col-lg-2">
                 <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#exampleModalCenter">Open Modal</button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addModalItem">Open Modal</button>
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
@@ -81,6 +81,7 @@
     </div>
 </section>
 
+@includeIf('utility_modal_add_form')
 @includeIf('utility_modal_form')
 
 <!--for demo wrap-->
@@ -111,11 +112,8 @@
                 <td>{{$item->item_quantity}}</td>
                 <td>
 
-                    <a href="{{url('delete_item/'.$item->id)}}">
-                        <button type="button" class="btn btn-primary btn-xs" style="background-color: #00b05c">delete
-                        </button>
-                        <i class="fa fa-trash-o fa-2x"></i>
-                    </a>
+                    <button type="button" class="btn btn-primary btn-xs" onclick="deleteMyItem('{{$item->id}}')" style="background-color: #00b05c">delete
+                    </button>
 
 
                     <button type="button" onclick="getMyItem('{{$item->id}}')" class="btn btn-primary btn-xs"
@@ -143,7 +141,7 @@
 <script src="{{url('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}"></script>
 <script src="{{url('https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js')}}"></script>
 <!-- Popper JS -->
-<script src="{{url('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')}}"></script>--}}
+<script src="{{url('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')}}"></script>
 {{--<script src="{{asset('js/jquery.min.js')}}"></script>--}}
 {{--<script src="{{asset('js/bootstrap.min.js')}}"></script>--}}
 
@@ -176,6 +174,33 @@
             },
         });
         /*$('#myModal').removeClass('show');*/
+    }
+    function addNewItemFunction(){
+        var formData = $('#addNewItemForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: "store_new_item",
+            data: formData,
+            success: function (data){
+                if(data == 1){
+                    $('#addModalItem').modal('toggle');
+                    // $('#addItemModalCloseBtn').modal('toggle');
+                    // $('#addItemModalCloseBtn').click();
+                }
+            },
+        });
+        /*$('#myModal').removeClass('show');*/
+    }
+
+    function deleteMyItem(id) {
+        $.ajax({
+            type: 'GET',
+            url: "{{url('delete_item')}}/" + id,
+            success: function (data) {
+                location.reload();
+                // $(".tbl-contentr").load(location.href + " .tbl-content");
+            }
+        });
     }
 
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\True_;
 
 class ItemController extends Controller
 {
@@ -37,9 +38,10 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        Item::insert($data);
-        return redirect()->to('utility_modal');
+        $data = $request->except(['_token','itemId']);
+        $item = Item::insert($data);
+        return $item;
+       // return redirect()->to('utility_modal');
     }
 
     /**
@@ -92,7 +94,11 @@ class ItemController extends Controller
     public function destroy($id)
     {
         $items=Item::find($id);
-        $items->delete();
-        return redirect()->to('utility_modal');
+        if (!is_null($items)){
+            $items->delete();
+        }
+
+        return true;
+//        return redirect()->to('utility_modal');
     }
 }
